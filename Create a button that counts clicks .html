@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="script.js">
+    <title>Document</title>
+</head>
+<body>
+    <button id="button">Click me </button>
+    <p><span>Count:&nbsp;<span id ="count">0</span></span></p>
+</body>
+
+<script>
+    // Create a button that counts clicks, 
+// but with a twist - after each click, 
+// the button should be disabled for 2 seconds 
+// while showing "Processing..." text. Once the delay is over, 
+// re-enable the button and show the updated count. 
+// This tests your ability to manage UI state during async 
+// operations triggered by user interactions.
+
+//     Requirements:
+    
+//     - Button shows "Click me! Count: 0" initially
+//     - When clicked, immediately show "Processing..." and disable button
+//     - After 2 seconds, re-enable button and show new count
+//     - Handle multiple rapid clicks properly (they should queue or be ignored)
+
+    let button = document.getElementById('button');
+    let countText = document.getElementById('count');
+    let count = 0
+    
+    button.addEventListener('click',()=>{
+
+        button.textContent ="Processing..."
+        button.disabled = true;
+
+        setTimeout(()=>{
+        button.textContent ="Click me"
+        count++;
+        countText.textContent = count;
+        button.disabled =false;
+        },2000);     
+    })
+
+</script>
+</html>
