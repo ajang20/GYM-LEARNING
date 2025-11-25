@@ -7,3 +7,11 @@
 //   'https://jsonplaceholder.typicode.com/posts/5',
 //   'https://jsonplaceholder.typicode.com/posts/6'
 // ];
+
+function getPosts(url){
+    let 
+    return fetch(url)
+    .then(Response=>Response.json)
+    .then(data=>console.log(data))
+    .catch(err=>console.log(err))
+}

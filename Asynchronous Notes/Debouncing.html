@@ -1,0 +1,31 @@
+<input id="searchBox" placeholder="Type to search..." />
+
+<script>
+    //searchQuery (callback)
+function searchQuery(query) {
+    console.log("Searching for:", query);
+  }
+
+  //debounce function
+  function debounce(fn, delay) {
+    let timeout;
+
+    return function (...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        fn.apply(this, args);
+      }, delay);
+    };
+  }
+
+  //debounced function(Optimzed function)
+  const debouncedSearch = debounce(searchQuery, 300);
+
+ 
+  const input = document.getElementById("searchBox");
+  
+ //eventlistener + debounced function
+  input.addEventListener("input", function (e) {
+    debouncedSearch(e.target.value);
+  });
+</script>

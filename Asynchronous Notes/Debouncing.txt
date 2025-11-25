@@ -1,0 +1,47 @@
+* DEBOUNCING *
+*** Definition: ***
+Debouncing is a technique that ensures a function only runs after a certain period of inactivity.
+
+** Why do we need Debouncing? **
+1. To avoid running a function too many times:
+     Some functions are executed every few milliseconds e.g (typing), this will likely cause some issues such as perfomance slowdown, Browser lag, CPU Overuse, The function firing hundres of times unnecessarily.
+2. To wait until the user finishes an action:
+     Debouncing ensures a function runs only after the user stops doing something e.g(if typing then wait until the users stops typing then search). This prevents running the function while user is typing, reacting too early, doing work the user may change.
+3. To prevents unnecessary API calls:
+     This ensures theirs one function call after each inactivity. This prevents one from spaming the server with requests, slowing down app with repeated function calls.
+4. To improve app performance
+     Debouncing stops your app from doing the same task 50 times. This enables less unnecessary work thus preventing freezing, overloading the browser with repeated task.
+5. To avoind repeated DOM updates.
+     Debouncing ensures you update the UI once not repeatedly.
+
+** When do we use Debouncing? **
+when user is typing e.g in search boxes 
+When the user stops resizing the window
+When the user stops scrolling 
+
+** How does Debouncing work?**
+*** Core Idea: ***
+ Debouncing waits for a user to stop doing something then it runs a function.
+ If the user keeps triggering events, the timer is reset. 
+ Only when they stop for X-time without triggering an event is when it will run.
+
+ ** Mechanincs **
+   step One:
+  One creates a timer. when the event fires, the countdown timer starts. 
+   step two:
+   If another event happens before the timer finishes, reset the timer e.g typing again,scrolling again, resizing again. This causes resets the old timer and start a new one.
+   step three:
+   If no new event is fired before the event expires, the function is finally run. 
+
+   what it looks like in actual code:
+   
+   function Debouncing (fn, delay){
+    let timer; 
+
+    return function(...args){
+        clearTimeout(timer);
+        timer = setTimeout(()=>{
+            fn.apply(this,args)
+        },delay);
+    }
+   }
