@@ -25,14 +25,14 @@ function callback_BasedFunction(arg1, arg2, callback) {
 
 function callbackPromise(arg1,arg2){
     return new Promise((resolve, reject)=>{
-        callback_BasedFunction(arg1,arg2,(err,data)=>{
-      err?reject(err):resolve(data) 
+      callback_BasedFunction(arg1,arg2,(err,data)=>{
+      err?reject(err):resolve(data);
         });
     });
 }
 
 //with thenables
-callbackPromise(11,2)
+callbackPromise(11,1)
 .then(data=>console.log(data))
 .catch(err=>console.log(err))
 
@@ -43,7 +43,7 @@ async function run(){
         console.log(data);
     }
     catch(err){
-        console.log(err)
+        console.log(err);
     }
 }
 run()

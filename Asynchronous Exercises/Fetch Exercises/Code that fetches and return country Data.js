@@ -3,6 +3,8 @@
 //  You need to fetch the country details from one API 
 // and the weather information for the capital city from another API.
 
+// const { version } = require("react")
+
 // **Here are the requirements:**
 
 // - Use the fetch API to get the country details from 
@@ -70,5 +72,51 @@ function fetchLatLon(lat,lon){
   })
   .then(data=>data)
   .catch(error=>console.log(error))
+}
+FetchCountryData("Rwanda")
+
+
+
+
+
+//ASYNC AND AWAIT VERSIONS
+
+async function FetchCountryData(countryName){
+  try {
+    const response = await fetch(`https://restcountries.com/v3.1/name/${countryName}`)
+    if (!response.ok) {
+      throw new Error(`Server Error ${response.status}`)
+    }
+    const data = await response.json()
+    const [name, city, [lat, lon]] = [data[0].name.common, data[0].capital.join(""), data[0].latlng]
+    const arr = [name, city, lat, lon]
+    const [name_1, city_1, lat_1, lon_1] = arr
+    let Promise = fetchLatLon(lat_1, lon_1)
+    const d = await Promise
+    const data_2 = [name_1, city_1, d]
+    const [name_2, city_2, obj] = data_2
+    // console.log(obj)
+    const temp = obj.current_weather.temperature
+    const unit = obj.current_weather_units.temperature
+    console.log(`Country: ${name_2}\n City:${city_2} \n Temperature:${temp}${unit}`)
+  } catch (error) {
+    return console.log(`Error ${error}`)
+  }
+}
+
+
+
+// latittude and longittude api
+async function fetchLatLon(lat,lon){
+  try {
+    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`)
+    if (!response.ok) {
+      throw new Error(`Server Error ${response.status}`)
+    }
+    const data = await response.json()
+    return data
+  } catch (error) {
+    return console.log(error)
+  }
 }
 FetchCountryData("Rwanda")

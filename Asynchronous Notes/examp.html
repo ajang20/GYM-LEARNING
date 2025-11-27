@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="input">
+
+    <button id="button"></button>
+    <span id="output"></span>
+</body>
+<script>
+    let input = document.getElementById("input");
+
+    //search function
+    function searchQeury(query){
+        console.log(`Searching: ${query}`)
+    }
+
+    function debounce(fn,delay){
+        let timer;
+        
+        return function(...args){
+            clearTimeout(timer)
+             timer = setTimeout(()=>{
+                fn.apply(this,args)
+             },delay)
+        }
+    }
+
+    //throttling function
+    // function throttling(fn,delay){
+    //     let lastCall = 0;
+        
+    //     return function(...args){
+    //         let now = Date.now();
+    //         let timer = now-lastCall;
+
+    //         if(timer>=delay){
+    //             fn.apply(this,args);
+    //         }
+    //         lastCall = now;
+    //     }
+    // }
+
+    // const throttledfunction = throttling(searchQeury,100);
+
+    const debouncedSearch = debounce(searchQeury,300);
+
+    input.addEventListener('input',(e)=>{
+        debouncedSearch(e.target.value)
+    })
+
+    //THROTTLING
+    const button = document.getElementById('button')
+    const output = document.getElementById('output');
+
+    function click (query){
+        
+    }
+
+</script>
+</html>

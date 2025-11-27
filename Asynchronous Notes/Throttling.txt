@@ -1,0 +1,15 @@
+THROTTLING
+Defition:
+   Is a mechanism that enables a function to runs after specific time.
+
+Why do we need throttling?
+ 1. To prevent perfomance destruction. 
+ 2. To protect expensive functions
+ 3. To prevent API rate-limit violations
+ 4. To keep things predictable
+
+When do we use throttling?
+ 1. Event fires continuously, when scrolling,resizing the websize/app, mousemove.
+ 2. When you want regular, periodic updates
+ 3. 
+

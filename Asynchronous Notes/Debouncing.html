@@ -29,3 +29,17 @@ function searchQuery(query) {
     debouncedSearch(e.target.value);
   });
 </script>
+
+//searchQuery function 
+This is the function that does the searching and the logging
+It will be passed as a callback into the debounce function.
+It's then Optimzed in order to search after a certain period and not after every event call.
+
+//Debounce Function 
+This is the middle man between the searchQeury and the eventlistener
+It optimzes the searchQuery function into the debouncedSearch. 
+It gives it the ability to pause and reset the timer and run the event after a certain period of inactivity
+
+//Returned Function
+It the one that makes the searchQuery optimized by delaying the search calls.
+
