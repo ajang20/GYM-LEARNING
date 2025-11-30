@@ -20,23 +20,38 @@ function myFetch(url){
     //create request
     xhr.open("GET",url)
     xhr.onload = function (){
-    if(xhr.status===200){
-        resolve(xhr.responseText);
+
+        //status errors
+    if(xhr.status<200 || xhr.status>299){
+        reject(`Status Error: ${xhr.status}`);
+        return;
     }
-    else{
-        reject(`Status Error:${response.status}`);
-    }
-    xhr.oneError = function (){
+    //checking content type errors
+     const contentType = xhr.getResponseHeader('content-type');
+   
+  if(!contentType || !contentType.includes('application/json')){
+        reject(`content type ain't JSON but ${contentType}`);
+        return;
+     }
+     
+     try{
+        const response = JSON.parse(xhr.responseText);
+        resolve(response)
+     }
+     catch(err){
+        reject(err)
+     }
+}
+xhr.onerror = function (){
         reject(`Request Failed!`);
     }
-}
     //send request
     xhr.send();
     });
 }
 
 
-
 myFetch(`https://jsonplaceholder.typicode.com/posts`)
-.then(data=>console.log(data))
-.then(err=>console.error(err))
+.then(Response=>Response.json())
+.then(err=>console.log(err))
+.catch(err=>console.log(derr))
