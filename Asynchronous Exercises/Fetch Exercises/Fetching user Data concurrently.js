@@ -48,3 +48,39 @@
 //       ]
 //       ...
 //   }
+function fetchUserTodos(arr){
+    const urls = arr.map(ele=>fetch(ele).then(res=>res.json()))
+    return Promise.all(urls)
+}
+let links = [`https://jsonplaceholder.typicode.com/users`,`https://jsonplaceholder.typicode.com/todos`]
+fetchUserTodos(links)
+.then(data=>{
+    let [user,todo]= data
+    // console.log(user)
+    //  console.log(user)
+    //  let todos = todo.filter(ele=>ele)
+// data.filter((ele)=>{
+
+    let array =[]
+
+    for(let j=0; j<user.length;j++){
+
+         let object = {
+        id: user[j].id,
+        name:user[j].name,
+        Todos:[]
+    }
+
+    for(let i=0;i<todo.length;i++){
+        if(user[j].id===todo[i].userId){
+      object.Todos.push(todo[i])
+        }
+    }
+    array.push(object)
+    }
+
+    return array;
+
+})
+.then(data=>console.log(data))
+.catch(err=>console.error(err))

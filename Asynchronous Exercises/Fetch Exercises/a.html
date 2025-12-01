@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+//     function fetchUserTodos(arr){
+//     const urls = arr.map(ele=>fetch(ele).then(res=>res.json()))
+//     return Promise.all(urls)
+// }
+// let links = [`https://jsonplaceholder.typicode.com/users`,`https://jsonplaceholder.typicode.com/todos`]
+// fetchUserTodos(links)
+// .then(data=>{
+//     let [user,todo]= data
+//     // console.log(user)
+//     //  console.log(user)
+//     //  let todos = todo.filter(ele=>ele)
+// // data.filter((ele)=>{
+
+//     // let array =[]
+
+//     // for(let j=0; j<user.length;j++){
+
+//     //      let object = {
+//     //     id: user[j].id,
+//     //     name:user[j].name,
+//     //     Todos:[]
+//     // }
+
+//     // for(let i=0;i<user.length;i++){
+//     //     if(user[j].id===todo[i].userId){
+//     //   object.Todos.push(todo[i])
+//     //     }
+//     // }
+//     // array.push(object)
+//     // }
+
+//     // return array;
+
+    
+
+// })
+// .then(data=>console.log(data))
+// .catch(err=>console.error(err))
+
+
+function fetchUserTodos(urls) {
+  // Fetch both endpoints concurrently
+  const requests = urls.map(url =>
+    fetch(url).then(res => res.json())
+  );
+
+  return Promise.all(requests).then(([users, todos]) => {
+    // map through EACH user and attach their todos
+    const combined = users.map(user => {
+      return {
+        ...user,
+        todos: todos.filter(todo => todo.userId === user.id)
+      };
+    });
+
+    return combined;
+  });
+}
+
+const links = [
+  "https://jsonplaceholder.typicode.com/users",
+  "https://jsonplaceholder.typicode.com/todos"
+];
+
+fetchUserTodos(links)
+  .then(result => console.log(result))
+  .catch(err => console.error(err));
+
+</script>
+</html>

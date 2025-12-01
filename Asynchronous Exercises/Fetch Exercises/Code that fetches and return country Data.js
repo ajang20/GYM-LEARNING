@@ -3,8 +3,6 @@
 //  You need to fetch the country details from one API 
 // and the weather information for the capital city from another API.
 
-// const { version } = require("react")
-
 // **Here are the requirements:**
 
 // - Use the fetch API to get the country details from 
@@ -38,6 +36,11 @@ function FetchCountryData(countryName){
   .then(response=>{
     if(!response.ok){
       throw new Error(`Server Error ${response.status}`)
+    }
+
+    const contentType = response.headers.get('content-type');
+    if(!contentType || !contentType.includes('application/json')){
+      throw new Error(`ContentType not JSON but ${contentType}`);
     }
     return response.json()
   })
