@@ -52,6 +52,5 @@ xhr.onerror = function (){
 
 
 myFetch(`https://jsonplaceholder.typicode.com/posts`)
-.then(Response=>Response.json())
-.then(err=>console.log(err))
-.catch(err=>console.log(derr))
+.then(data=>console.log(data))
+.catch(err=>console.log(err))
