@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Learning Roadmap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .roadmap {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .level {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .level-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .level-header:hover {
+            opacity: 0.9;
+        }
+
+        .level-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            flex-shrink: 0;
+        }
+
+        .level-title {
+            flex: 1;
+        }
+
+        .level-title h2 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .level-duration {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .toggle-icon {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        .topics {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, margin-top 0.4s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .topics.expanded {
+            max-height: 3000px;
+            margin-top: 20px;
+            opacity: 1;
+        }
+
+        .topic {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .topic:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox.checked {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            border-color: #22c55e;
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .topic-content {
+            flex: 1;
+        }
+
+        .topic-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .topic-desc {
+            font-size: 0.9em;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .beginner .level-icon { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); }
+        .intermediate .level-icon { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .advanced .level-icon { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+
+        .progress-container {
+            margin-top: 20px;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.3s ease, max-height 0.3s ease;
+        }
+
+        .progress-container.visible {
+            opacity: 1;
+            max-height: 100px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .level-title h2 { font-size: 1.5em; }
+            .level-header { gap: 15px; }
+            .level-icon { width: 50px; height: 50px; font-size: 1.5em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 TypeScript Learning Roadmap</h1>
+            <p class="subtitle">Your journey from beginner to advanced TypeScript developer</p>
+        </header>
+
+        <div class="roadmap">
+            <!-- Beginner Level -->
+            <div class="level beginner">
+                <div class="level-header" onclick="toggleLevel(this)">
+                    <div class="level-icon">🌱</div>
+                    <div class="level-title">
+                        <h2>Beginner Level</h2>
+                        <p class="level-duration">Estimated Time: 2-4 weeks</p>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="topics">
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">TypeScript Basics</div>
+                            <div class="topic-desc">Understanding what TypeScript is, why use it, and how it compares to JavaScript</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Setup & Configuration</div>
+                            <div class="topic-desc">Installing TypeScript, tsconfig.json, compiler options, and development environment</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Basic Types</div>
+                            <div class="topic-desc">string, number, boolean, array, tuple, enum, any, unknown, void, null, undefined</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Type Annotations</div>
+                            <div class="topic-desc">Variable annotations, function parameters, return types, and type inference</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Interfaces</div>
+                            <div class="topic-desc">Defining object shapes, optional properties, readonly properties, and extending interfaces</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Functions</div>
+                            <div class="topic-desc">Function types, optional parameters, default parameters, rest parameters, and overloads</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Union & Literal Types</div>
+                            <div class="topic-desc">Combining types with unions, intersection types, and using literal values as types</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Type Assertions</div>
+                            <div class="topic-desc">Using 'as' keyword and angle-bracket syntax to tell TypeScript about types</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span>Progress</span>
+                        <span class="progress-text">0/8 completed</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill"></div></div>
+                </div>
+            </div>
+
+            <!-- Intermediate Level -->
+            <div class="level intermediate">
+                <div class="level-header" onclick="toggleLevel(this)">
+                    <div class="level-icon">🔥</div>
+                    <div class="level-title">
+                        <h2>Intermediate Level</h2>
+                        <p class="level-duration">Estimated Time: 4-8 weeks</p>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="topics">
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Classes</div>
+                            <div class="topic-desc">Class syntax, constructors, access modifiers, inheritance, abstract classes, and implements</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Generics</div>
+                            <div class="topic-desc">Generic functions, classes, interfaces, constraints, and default type parameters</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Advanced Types</div>
+                            <div class="topic-desc">Type guards, discriminated unions, index types, mapped types, and conditional types</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Modules & Namespaces</div>
+                            <div class="topic-desc">ES6 modules, import/export, ambient modules, and namespace organization</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Decorators</div>
+                            <div class="topic-desc">Class decorators, method decorators, property decorators, and parameter decorators</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Utility Types</div>
+                            <div class="topic-desc">Partial, Required, Readonly, Record, Pick, Omit, Exclude, Extract, NonNullable</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Enums Deep Dive</div>
+                            <div class="topic-desc">Numeric enums, string enums, heterogeneous enums, const enums, and ambient enums</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Type Narrowing</div>
+                            <div class="topic-desc">typeof guards, instanceof, truthiness checking, equality narrowing, and the 'in' operator</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Async Programming</div>
+                            <div class="topic-desc">Promises with TypeScript, async/await syntax, and typing asynchronous functions</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span>Progress</span>
+                        <span class="progress-text">0/9 completed</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill"></div></div>
+                </div>
+            </div>
+
+            <!-- Advanced Level -->
+            <div class="level advanced">
+                <div class="level-header" onclick="toggleLevel(this)">
+                    <div class="level-icon">⚡</div>
+                    <div class="level-title">
+                        <h2>Advanced Level</h2>
+                        <p class="level-duration">Estimated Time: 8-12 weeks</p>
+                    </div>
+                    <div class="toggle-icon">▼</div>
+                </div>
+                <div class="topics">
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Advanced Generics</div>
+                            <div class="topic-desc">Generic constraints, conditional types with infer, recursive types, and variadic tuple types</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Template Literal Types</div>
+                            <div class="topic-desc">String manipulation at type level, intrinsic string manipulation types</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Type Manipulation</div>
+                            <div class="topic-desc">Mapped types, keyof operator, typeof operator, indexed access types, and type inference</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Declaration Files</div>
+                            <div class="topic-desc">Writing .d.ts files, @types packages, module augmentation, and global augmentation</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Advanced Patterns</div>
+                            <div class="topic-desc">Builder pattern, factory pattern, singleton with TypeScript, dependency injection</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Compiler API</div>
+                            <div class="topic-desc">Using TypeScript's compiler programmatically, AST manipulation, and code generation</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Performance Optimization</div>
+                            <div class="topic-desc">Project references, build optimization, incremental compilation, and type-checking performance</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Advanced Type Guards</div>
+                            <div class="topic-desc">User-defined type guards, assertion functions, and branded types</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Strict Mode</div>
+                            <div class="topic-desc">Understanding strict flags, noImplicitAny, strictNullChecks, and migration strategies</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Integration</div>
+                            <div class="topic-desc">TypeScript with React, Node.js, Express, testing frameworks, and build tools</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Advanced Configuration</div>
+                            <div class="topic-desc">Complex tsconfig setups, monorepo configurations, and path mapping</div>
+                        </div>
+                    </div>
+                    <div class="topic" onclick="toggleTopic(event, this)">
+                        <div class="checkbox"></div>
+                        <div class="topic-content">
+                            <div class="topic-name">Meta-programming</div>
+                            <div class="topic-desc">Type-level programming, compile-time computations, and advanced type transformations</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span>Progress</span>
+                        <span class="progress-text">0/12 completed</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleLevel(header) {
+            const level = header.parentElement;
+            const topics = level.querySelector('.topics');
+            const toggleIcon = header.querySelector('.toggle-icon');
+            const progressContainer = level.querySelector('.progress-container');
+            
+            if (topics.classList.contains('expanded')) {
+                topics.classList.remove('expanded');
+                toggleIcon.classList.remove('rotated');
+                progressContainer.classList.remove('visible');
+            } else {
+                topics.classList.add('expanded');
+                toggleIcon.classList.add('rotated');
+                progressContainer.classList.add('visible');
+            }
+        }
+
+        function toggleTopic(event, topic) {
+            event.stopPropagation();
+            const checkbox = topic.querySelector('.checkbox');
+            const level = topic.closest('.level');
+            
+            checkbox.classList.toggle('checked');
+            
+            updateProgress(level);
+        }
+
+        function updateProgress(level) {
+            const allTopics = level.querySelectorAll('.topic');
+            const checkedTopics = level.querySelectorAll('.checkbox.checked');
+            const progressFill = level.querySelector('.progress-fill');
+            const progressText = level.querySelector('.progress-text');
+            
+            const total = allTopics.length;
+            const completed = checkedTopics.length;
+            const percentage = (completed / total) * 100;
+            
+            progressFill.style.width = percentage + '%';
+            progressText.textContent = `${completed}/${total} completed`;
+        }
+    </script>
+</body>
+</html>

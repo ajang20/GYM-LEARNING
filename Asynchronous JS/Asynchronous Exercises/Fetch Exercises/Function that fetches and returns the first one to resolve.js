@@ -30,13 +30,13 @@ const apiUrls = [
 function getFastPosts(url) {
   const arr = url.map(data =>
     fetch(data)
-      .then(res => {
+    .then(res => {
         if (!res.ok) {
           throw new Error(`Status error ${res.status}`);
         }
         return res.json();
       })
-      .catch(E => {
+    .catch(E => {
         throw new Error(E);
       })
   );
